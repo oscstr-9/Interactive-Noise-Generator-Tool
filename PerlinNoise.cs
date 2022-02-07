@@ -1,13 +1,13 @@
+// Implementation originally created by Ken Perlin and rewritten for C# by Flaflia2
+// https://gist.github.com/Flafla2/1a0b9ebef678bbce3215
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-// Script originally created by Ken Perlin in C and rewritten in C# by Flafia2
-// https://gist.github.com/Flafla2/f0260a861be0ebdeef76
-
 public class Perlin : MonoBehaviour
 {
+
 	public int repeat;
 
 	public Perlin(int repeat = -1)
@@ -147,4 +147,4 @@ public class Perlin : MonoBehaviour
 	{
 		return a + x * (b - a);
 	}
-}
+} 
