@@ -8,17 +8,15 @@ public class NoiseToImage : MonoBehaviour
 {
     public int i = 1;
     // Start is called before the first frame update
-    IEnumerator Start()
+    void Start()
     {
-        yield return UploadPNG(1);
+        UploadPNG(1);
     }
 
-    IEnumerator UploadPNG(int noiseNum)
+    public void UploadPNG(int noiseNum)
     {
-        Perlin noise = gameObject.GetComponent<Perlin>();
-
-        // We should only read the screen buffer after rendering is complete
-        yield return new WaitForEndOfFrame();
+        Perlin pNoise = gameObject.GetComponent<Perlin>();
+        BlueNoise bNoise = gameObject.GetComponent<BlueNoise>();
 
         // Create a texture the size of the screen, RGB24 format
         int width = Screen.width;
@@ -41,7 +39,7 @@ public class NoiseToImage : MonoBehaviour
                     break;
                 case 3:
                 // Perlin Noise
-                    double colorValue = noise.OctavePerlin(x/width,y/height,1.0f, 8, 64);
+                    double colorValue = pNoise.OctavePerlin(x/width,y/height, 1, 8, 256);
                     color = new Color((float)colorValue,0.0f,0.5f,1.0f);
                     break;
                 case 4:
@@ -66,7 +64,7 @@ public class NoiseToImage : MonoBehaviour
     }
 
     // Update is called once per frame
-    IEnumerator Update()
+    void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space)){
             print(i);
@@ -74,7 +72,7 @@ public class NoiseToImage : MonoBehaviour
             if(i>4){
                 i=1;
             }
-            yield return UploadPNG(i);
+            UploadPNG(i);
         }
     }
 }
