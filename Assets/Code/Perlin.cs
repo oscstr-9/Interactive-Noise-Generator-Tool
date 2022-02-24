@@ -7,14 +7,16 @@ public class Perlin : MonoBehaviour
     public List<float> fPerlinNoise2D = new List<float>();
     public List<float> fNoiseSeed2D = new List<float>();
     public int outputWidth, outputHeight = 256;
-    public float scalingBias = 1;
-    public int octaves = 1;
+    float scalingBias = 1;
+    int octaves = 1;
 
-    public void PerlinNoise(int outputWidthIn, int outputHeightIn)
+    public void PerlinNoise(int outputWidthIn, int outputHeightIn, float scalingBiasIn, int octavesIn)
     {
         ResetArrays();
         outputWidth = outputWidthIn;
         outputHeight = outputHeightIn;
+        scalingBias = scalingBiasIn;
+        octaves = octavesIn;
         for (int i = 0; i < outputWidth * outputHeight; i++)
         {
             fNoiseSeed2D.Add((float)Random.value);

@@ -6,7 +6,18 @@ using System.IO;
 
 public class NoiseToImage : MonoBehaviour
 {
-    public int i = 1;
+    // Noise parameters //
+    public int width = 128;
+    public int height = 128;
+    public Color color = Color.black;
+    // Perlin noise
+    public float scalingBias = 1;
+    public int octaves = 1;
+    // Blue noise
+    public float bNoiseMinDist = 5; // min dist 1.5 for good visuals
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,16 +27,10 @@ public class NoiseToImage : MonoBehaviour
     public void UploadPNG(int noiseNum)
     {
         // Create a texture the size of the screen, RGB24 format
-        int width = 128;
-        int height = 128;
+
         Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
         GetComponent<Renderer>().material.mainTexture = tex;
 
-        Perlin pNoise = gameObject.GetComponent<Perlin>();
-        pNoise.PerlinNoise(width, height);
-        BlueNoise bNoise = gameObject.GetComponent<BlueNoise>();
-
-        Color color = Color.green;
         switch (noiseNum){
         case 1:
         // White Noise
@@ -40,36 +45,35 @@ public class NoiseToImage : MonoBehaviour
             break;
         case 2:
         // Blue Noise
-            color = Color.blue;
-            for (int y = 0; y < height; y++)
+            PoissonDiscSampler bNoise = new PoissonDiscSampler(height,width,bNoiseMinDist);
+            foreach (Vector2 sample in bNoise.Samples())
             {
-                for (int x = 0; x < width; x++)
-                {
-                    tex.SetPixel(x, y, color);
-                }
-            }            
-
+                tex.SetPixel((int)sample.x, (int)sample.y, color);
+            }
             break;
         case 3:
-         // Perlin Noise
+        // Perlin Noise
+            Perlin pNoise = gameObject.GetComponent<Perlin>();
+            pNoise.PerlinNoise(width, height, scalingBias, octaves);
             List<float> perlinNoise = pNoise.GetfPerlinNoise2D();
+            Color perlinColor = Color.white;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    color = new Color((float)perlinNoise[y * width + x], (float)perlinNoise[y * width + x], (float)perlinNoise[y * width + x], 1.0f);
-                    tex.SetPixel(x, y, color);
+                    perlinColor = new Color((float)perlinNoise[y * width + x], (float)perlinNoise[y * width + x], (float)perlinNoise[y * width + x], 1.0f);
+                    tex.SetPixel(x, y, perlinColor);
                 }
             }
             break;
         case 4:
         // Worley Noise
-            color = Color.red;
+            Color worleyColor = Color.red;
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    tex.SetPixel(x, y, color);
+                    tex.SetPixel(x, y, worleyColor);
                 }
             }
             break;
