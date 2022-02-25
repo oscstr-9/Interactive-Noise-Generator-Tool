@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 
 /// Poisson-disc sampling using Bridson's algorithm.
@@ -20,7 +20,7 @@ using System.Collections.Generic;
 /// Original Author: Gregory Schlomoff (gregory.schlomoff@gmail.com)
 /// Edited By: Oscar Östryd
 /// Released in the public domain
-public class PoissonDiscSampler
+public class PoissonDiscSampler : MonoBehaviour
 {
     private const int k = 30;  // Maximum number of attempts before marking a sample as inactive.
 
@@ -35,7 +35,7 @@ public class PoissonDiscSampler
     /// width:  each sample's x coordinate will be between [0, width]
     /// height: each sample's y coordinate will be between [0, height]
     /// radius: each sample will be at least `radius` units away from any other sample, and at most 2 * `radius`.
-    public PoissonDiscSampler(int width, int height, float radius)
+    public PoissonDiscSampler(float width, float height, float radius)
     {
         rect = new Rect(0, 0, width, height);
         radius2 = radius * radius;
@@ -43,7 +43,6 @@ public class PoissonDiscSampler
         grid = new Vector2[Mathf.CeilToInt(width / cellSize),
                            Mathf.CeilToInt(height / cellSize)];
     }
-
     /// Return a lazy sequence of samples. You typically want to call this in a foreach loop, like so:
     ///   foreach (Vector2 sample in sampler.Samples()) { ... }
     public IEnumerable<Vector2> Samples()
