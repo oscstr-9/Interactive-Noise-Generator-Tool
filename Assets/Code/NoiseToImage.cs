@@ -31,7 +31,7 @@ public class NoiseToImage : MonoBehaviour
     public Dropdown extraColor1DD;
     public Dropdown extraColor2DD;
 
-    // Perlin noise
+    // Perlin Noise
     public float scalingBias = 1;
     public int octaves = 1;
     public InputField scalingBiasIF;
@@ -42,7 +42,17 @@ public class NoiseToImage : MonoBehaviour
     public InputField pColorsGreen;
     public InputField pColorsBlue;
 
-    // Blue noise
+    // Voronoi Noise
+    public InputField regionAmountIF;
+    public int regionAmount;
+    public Toggle randomColors;
+    public Vector3 voronoiColors;
+    public InputField vColorsRed;
+    public InputField vColorsGreen;
+    public InputField vColorsBlue;
+
+
+    // Blue Noise
     public float bNoiseMinDist = 5; // min dist 1.5 for good visuals
     public InputField minDistBlueNoise;
 
@@ -102,6 +112,13 @@ public class NoiseToImage : MonoBehaviour
                 break;
             case 3:
                 // Perlin Noise
+
+                // Makes the program not crash from incorrect float syntax
+                if (scalingBiasIF.text.Contains("."))
+                {
+                    scalingBiasIF.text = scalingBiasIF.text.Replace(".", ",");
+
+                }
                 scalingBias = Mathf.Abs(float.Parse(scalingBiasIF.text));
                 octaves = Mathf.Abs(int.Parse(octavesIF.text));
 
@@ -124,8 +141,18 @@ public class NoiseToImage : MonoBehaviour
                 }
                 break;
             case 4:
-                // Worley Noise
-                //TBD//
+                // Voronoi Noise
+                if(Mathf.Abs(int.Parse(regionAmountIF.text)) < 1)
+                {
+                    regionAmount = 1;
+                    regionAmountIF.text = "1";
+
+                }
+                else
+                {
+                    regionAmount = Mathf.Abs(int.Parse(regionAmountIF.text));
+                }
+
                 break;
             default:
                 break;
@@ -174,7 +201,7 @@ public class NoiseToImage : MonoBehaviour
                 break;
         }
 
-        if (noiseNum > 2)
+        if (noiseNum == 3 && strictColors.isOn)
         {
             switch (extraColor1DD.value)
             {
@@ -214,6 +241,26 @@ public class NoiseToImage : MonoBehaviour
                     break;
             }
 
+        }
+        else if(noiseNum == 4)
+        {
+            if (vColorsRed.text.Contains("."))
+            {
+                vColorsRed.text = vColorsRed.text.Replace(".", ",");
+            }
+            if (vColorsGreen.text.Contains("."))
+            {
+                vColorsGreen.text = vColorsGreen.text.Replace(".", ",");
+            }
+            if (vColorsBlue.text.Contains("."))
+            {
+                vColorsBlue.text = vColorsBlue.text.Replace(".", ",");
+            }
+
+            voronoiColors = new Vector3(
+                float.Parse(vColorsRed.text),
+                float.Parse(vColorsGreen.text),
+                float.Parse(vColorsBlue.text));
         }
     }
 
@@ -274,7 +321,6 @@ public class NoiseToImage : MonoBehaviour
             pNoise.PerlinNoise(width, height, scalingBias, octaves, keepSeed.isOn);
             List<float> perlinNoise = pNoise.GetfPerlinNoise2D();
             Color perlinColor = Color.white;
-
             if (strictColors.isOn)
             {
                 for (int y = 0; y < height; y++)
@@ -314,6 +360,20 @@ public class NoiseToImage : MonoBehaviour
                     }
                 }
 
+                // Makes the program not crash from incorrect float syntax
+                if (pColorsRed.text.Contains("."))
+                {
+                    pColorsRed.text = pColorsRed.text.Replace(".", ",");
+                }
+                if (pColorsGreen.text.Contains("."))
+                {
+                    pColorsGreen.text = pColorsGreen.text.Replace(".", ",");
+                }
+                if (pColorsBlue.text.Contains("."))
+                {
+                    pColorsBlue.text = pColorsBlue.text.Replace(".", ",");
+                }
+
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
@@ -325,20 +385,20 @@ public class NoiseToImage : MonoBehaviour
                             float.Parse(pColorsBlue.text) < 0 ? (float)perlinNoise[y * width + x] : float.Parse(pColorsBlue.text),
                             1.0f);
                         tex.SetPixel(x, y, perlinColor);
-                    }
+                        }
                 }
             }
             break;
         case 4:
-        // Worley Noise
-            Color worleyColor = Color.red;
-            for (int y = 0; y < height; y++)
-            {
-                for (int x = 0; x < width; x++)
+        // Voronoi Noise
+            Color worleyColor = Color.blue;
+            VoronoiDiagram voronoiNoise = new VoronoiDiagram();
+                if (randomColors.isOn)
                 {
-                    tex.SetPixel(x, y, worleyColor);
+                    voronoiColors = new Vector3(-1, -1, -1);
                 }
-            }
+            tex.SetPixels(voronoiNoise.GetDiagram(width, regionAmount, voronoiColors));
+
             break;
         default:
             break;
