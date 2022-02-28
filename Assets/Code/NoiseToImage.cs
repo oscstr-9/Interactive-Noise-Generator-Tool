@@ -66,12 +66,6 @@ public class NoiseToImage : MonoBehaviour
         UploadPNG(1);
     }
 
-    public void SaveTexture()
-    {
-        string path = EditorUtility.SaveFilePanel("Show all images (.png)", Application.dataPath, "GeneratedNoise","png");
-        File.WriteAllBytes(path, bytes);
-    }
-
     public void GenNewNoise()
     {
         UploadPNG(currentNoise);
