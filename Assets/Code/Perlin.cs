@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Perlin : MonoBehaviour
+public class Perlin
 {
     public List<float> fPerlinNoise2D = new List<float>();
     public List<float> fNoiseSeed2D = new List<float>();

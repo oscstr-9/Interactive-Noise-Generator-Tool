@@ -317,7 +317,7 @@ public class NoiseToImage : MonoBehaviour
             break;
         case 3:
         // Perlin Noise
-            Perlin pNoise = gameObject.GetComponent<Perlin>();
+            Perlin pNoise = new Perlin();
             pNoise.PerlinNoise(width, height, scalingBias, octaves, keepSeed.isOn);
             List<float> perlinNoise = pNoise.GetfPerlinNoise2D();
             Color perlinColor = Color.white;

@@ -3625,8 +3625,6 @@ GameObject:
   - component: {fileID: 535270059}
   - component: {fileID: 535270058}
   - component: {fileID: 535270062}
-  - component: {fileID: 535270064}
-  - component: {fileID: 535270063}
   - component: {fileID: 535270066}
   - component: {fileID: 535270067}
   - component: {fileID: 535270065}
@@ -3754,34 +3752,6 @@ MonoBehaviour:
   vColorsBlue: {fileID: 1079157144}
   bNoiseMinDist: 5
   minDistBlueNoise: {fileID: 1834168951}
---- !u!114 &535270063
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535270057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e781b2330a3b6b43bf3945cb4a202ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fPerlinNoise2D: []
-  fNoiseSeed2D: []
-  outputWidth: 0
-  outputHeight: 256
---- !u!114 &535270064
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 535270057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0549d0329fd7f364aa134792e733dc8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &535270065
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3822,7 +3792,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a78cb31be5cc1e447a68a0f12068eb92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 0}
 --- !u!1 &551502400
 GameObject:
   m_ObjectHideFlags: 0

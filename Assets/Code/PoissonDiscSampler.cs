@@ -20,7 +20,7 @@ using UnityEngine;
 /// Original Author: Gregory Schlomoff (gregory.schlomoff@gmail.com)
 /// Edited By: Oscar Östryd
 /// Released in the public domain
-public class PoissonDiscSampler : MonoBehaviour
+public class PoissonDiscSampler
 {
     private const int k = 30;  // Maximum number of attempts before marking a sample as inactive.
 
